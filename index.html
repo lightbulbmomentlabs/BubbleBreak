@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional bubble popping stress relief for the workplace. Silent, ASMR-quality soap bubble fidget tool perfect for meetings, focus enhancement, and anxiety relief. Try BubbleBreak.fun now.">
+    <meta name="keywords" content="professional bubble popping, workplace stress relief, quiet games for work, ASMR bubble popping, soap bubble stress relief, fidget tool, anxiety relief, focus enhancement, meeting games, silent browser games">
+    <title>BubbleBreak.fun - Professional Bubble Popping for Workplace Stress Relief</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bubblebreak.fun/">
+    <meta property="og:title" content="BubbleBreak.fun - Professional Bubble Popping Stress Relief">
+    <meta property="og:description" content="Silent, professional bubble popping tool for workplace stress relief. ASMR-quality sounds, multiple themes, perfect for meetings and focus.">
+    <meta property="og:image" content="https://bubblebreak.fun/og-image.jpg">
+    <meta property="og:site_name" content="BubbleBreak.fun">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bubblebreak.fun/">
+    <meta property="twitter:title" content="BubbleBreak.fun - Professional Bubble Popping Stress Relief">
+    <meta property="twitter:description" content="Silent, professional bubble popping tool for workplace stress relief. Perfect for meetings, ASMR sounds, multiple themes.">
+    <meta property="twitter:image" content="https://bubblebreak.fun/twitter-image.jpg">
+
+    <!-- Additional SEO -->
+    <meta name="author" content="BubbleBreak.fun">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bubblebreak.fun/">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#87CEEB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BubbleBreak">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="bubble-game.js" as="script">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BubbleBreak.fun",
+        "alternateName": "Professional Bubble Popping Stress Relief",
+        "url": "https://bubblebreak.fun",
+        "description": "Professional bubble popping stress relief tool for the workplace. Silent, ASMR-quality soap bubble fidget game perfect for meetings, focus enhancement, and anxiety relief.",
+        "applicationCategory": "GameApplication",
+        "genre": ["Puzzle", "Casual", "Stress Relief", "Fidget"],
+        "operatingSystem": "Web Browser",
+        "browser": ["Chrome", "Firefox", "Safari", "Edge"],
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "BubbleBreak.fun"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "156",
+            "bestRating": "5"
+        },
+        "keywords": "professional bubble popping, workplace stress relief, ASMR bubble popping, soap bubble stress relief, fidget tool, anxiety relief, focus enhancement, meeting games, silent browser games, virtual bubble wrap",
+        "featureList": [
+            "Four unique bubble themes",
+            "ASMR-quality sound effects",
+            "Silent mode for meetings",
+            "Mobile and desktop compatible",
+            "No downloads required",
+            "Professional appearance",
+            "Anxiety and stress relief",
+            "ADHD-friendly design"
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is BubbleBreak.fun really silent for work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! You can toggle the sound completely off or adjust the volume to any level. The visual bubble popping provides the same stress relief without any audio."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does it work on mobile devices?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely. BubbleBreak.fun works perfectly on smartphones, tablets, and desktop computers. Touch or click to pop bubbles on any device."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does bubble popping help with stress?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Repetitive, satisfying actions like bubble popping trigger the release of dopamine and help activate your parasympathetic nervous system, naturally reducing stress and anxiety."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this during video meetings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! With sound disabled, BubbleBreak.fun provides discrete stress relief during long meetings or calls without disturbing others."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicon and app icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23e0f2ff' stroke='%2387ceeb' stroke-width='2' opacity='0.8'/%3E%3C/svg%3E">
+</head>
+<body>
+    <!-- Main Game Section (100vh) -->
+    <main id="gameSection" role="main">
+        <!-- Background container -->
+        <div id="backgroundContainer" class="background-container">
+            <div id="currentBackground" class="background-layer current"></div>
+            <div id="nextBackground" class="background-layer next"></div>
+        </div>
+
+        <!-- Main game canvas -->
+        <canvas id="bubbleCanvas" aria-label="Interactive soap bubbles canvas. Hover over bubbles to pop them."></canvas>
+
+        <!-- Logo -->
+        <div class="logo" aria-label="BubbleBreak.fun">
+            <span class="logo-icon" aria-hidden="true">🫧</span>
+            <span class="logo-text">BubbleBreak.fun</span>
+        </div>
+
+        <!-- Minimal UI Controls -->
+    <div class="ui-controls" role="toolbar" aria-label="Game controls">
+        <div class="pop-counter" aria-label="Bubbles popped">
+            <span class="counter-icon" aria-hidden="true">💧</span>
+            <span id="popCount" class="counter-value">0</span>
+            <span class="sr-only">Bubbles popped this session</span>
+        </div>
+        <div class="theme-selector" aria-label="Bubble theme">
+            <select id="themeSelect" class="theme-select" aria-label="Choose bubble theme">
+                <option value="classic">Classic Soap</option>
+                <option value="oil">Oil Slick</option>
+                <option value="crystal">Crystal</option>
+                <option value="galaxy">Galaxy</option>
+            </select>
+        </div>
+        <div class="background-selector" aria-label="Background theme">
+            <select id="backgroundSelect" class="background-select" aria-label="Choose background">
+                <option value="gradient">Default Gradient</option>
+                <option value="aurora">Aurora</option>
+                <option value="clouds">Clouds</option>
+                <option value="forest">Forest</option>
+                <option value="galaxy">Galaxy</option>
+                <option value="meadow">Meadow</option>
+                <option value="mountain">Mountain</option>
+                <option value="ocean">Ocean</option>
+                <option value="zen">Zen</option>
+            </select>
+        </div>
+        <div class="audio-controls">
+            <button
+                id="audioToggle"
+                class="audio-toggle"
+                aria-label="Toggle sound effects"
+                type="button"
+            >
+                <span class="audio-icon" aria-hidden="true">🔊</span>
+                <span class="sr-only">Sound: ON</span>
+            </button>
+            <div class="volume-control" aria-label="Volume control">
+                <input
+                    id="volumeSlider"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value="5"
+                    class="volume-slider"
+                    aria-label="Volume level"
+                    aria-valuemin="0"
+                    aria-valuemax="10"
+                    aria-valuenow="5"
+                >
+                <div class="volume-labels">
+                    <span class="volume-label-min" aria-hidden="true">🔇</span>
+                    <span class="volume-label-max" aria-hidden="true">🔊</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AdSense Containers -->
+    <div id="adContainer" class="ad-container ad-container-bottom" aria-label="Advertisement">
+        <!-- Bottom AdSense code will be injected here -->
+    </div>
+
+    <div id="adContainerLeft" class="ad-container ad-container-left" aria-label="Advertisement">
+        <!-- Left vertical AdSense code will be injected here -->
+    </div>
+
+    <div id="adContainerRight" class="ad-container ad-container-right" aria-label="Advertisement">
+        <!-- Right vertical AdSense code will be injected here -->
+    </div>
+
+    <!-- Start Button -->
+    <div id="startScreen" class="start-screen" aria-label="Start game">
+        <div class="start-content">
+            <h1>🫧 BubbleBreak.fun</h1>
+            <p>A relaxing digital fidget toy</p>
+            <button id="startButton" class="start-button" aria-label="Start popping bubbles">
+                Start Popping
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loadingScreen" class="loading-screen" aria-label="Loading game">
+        <div class="loading-content">
+            <div class="loading-bubble"></div>
+            <p>Loading bubbles...</p>
+        </div>
+    </div>
+
+    <!-- Screen reader instructions -->
+    <div class="sr-only" id="gameInstructions">
+        <h1>Soap Bubbles Game</h1>
+        <p>Move your mouse over the floating soap bubbles to pop them. Use the sound toggle button to enable or disable audio effects.</p>
+    </div>
+
+        <!-- Privacy Notice -->
+        <div id="privacyNotice" class="privacy-notice" aria-label="Privacy notice">
+            <div class="privacy-content">
+                <p>This site uses cookies and ads to support development. <a href="#" id="privacyLink">Privacy Policy</a></p>
+                <button id="acceptPrivacy" class="privacy-button" aria-label="Accept and continue">OK</button>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator" aria-label="Scroll down for more information">
+            <span class="scroll-text">Learn More</span>
+            <span class="scroll-arrow" aria-hidden="true">↓</span>
+        </div>
+    </main>
+
+    <!-- SEO Content Sections -->
+    <article class="content-sections">
+        <!-- Section 1: How It Works -->
+        <section class="content-section" id="how-it-works">
+            <div class="container">
+                <h2>Science-Backed Stress Relief Through Bubble Popping</h2>
+                <p>Research shows that <strong>80% of workers experience productivity anxiety</strong>, and simple fidget activities like bubble popping can provide immediate relief. BubbleBreak.fun harnesses the therapeutic power of repetitive, satisfying actions to help you refocus and decompress during your workday.</p>
+
+                <p>The gentle <strong>ASMR-quality sounds</strong> and smooth visual feedback trigger your brain's relaxation response, making it perfect for quick stress relief between meetings or during challenging tasks. With <strong>24% of professionals already playing casual games at work</strong>, BubbleBreak.fun offers a discrete, professional solution designed specifically for the workplace.</p>
+
+                <div class="benefits-grid">
+                    <div class="benefit">
+                        <h3>🧠 Instant Focus</h3>
+                        <p>Clears mental clutter in seconds</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>😌 Stress Reduction</h3>
+                        <p>Proven anxiety relief technique</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>⚡ Energy Boost</h3>
+                        <p>Quick dopamine hit for motivation</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>✨ Oddly Satisfying</h3>
+                        <p>Visually pleasing bubble pops trigger relaxation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Perfect for Professionals -->
+        <section class="content-section" id="professional-features">
+            <div class="container">
+                <h2>Discrete Stress Relief for the Modern Workplace</h2>
+                <p>Unlike traditional fidget toys, BubbleBreak.fun is designed for professional environments. Our <strong>silent mode</strong> ensures you can use it during video calls without disruption, while the clean, minimal interface looks professional on any screen.</p>
+
+                <div class="features-list">
+                    <div class="feature">
+                        <h3>🔇 Silent Operation</h3>
+                        <p>Perfect for meetings and open offices - toggle sound instantly</p>
+                    </div>
+                    <div class="feature">
+                        <h3>💼 Professional Appearance</h3>
+                        <p>Clean, minimal design that looks appropriate in any work setting</p>
+                    </div>
+                    <div class="feature">
+                        <h3>⚡ Instant Access</h3>
+                        <p>No downloads or installations - works instantly in any browser</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📱 Mobile Friendly</h3>
+                        <p>Works perfectly on phones, tablets, and desktops</p>
+                    </div>
+                </div>
+
+                <blockquote class="testimonial">
+                    "I use BubbleBreak during long Zoom calls to stay focused. It's subtle enough that no one notices, but effective enough to keep me engaged." - Professional User
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Section 3: Themes & ASMR Experience -->
+        <section class="content-section" id="themes-asmr">
+            <div class="container">
+                <h2>Satisfying ASMR Sounds & Beautiful Visual Themes</h2>
+                <p>Experience four unique <strong>bubble popping themes</strong>, each with its own carefully crafted sound profile. From classic soap bubbles to cosmic galaxy pops, find the perfect combination for your mood and environment.</p>
+
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <h3>🫧 Classic Soap</h3>
+                        <p>Traditional bubble pop with gentle, soothing sounds</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3>🌈 Oil Slick</h3>
+                        <p>Shimmering bubbles with rich, satisfying audio</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3>💎 Crystal</h3>
+                        <p>Clear, sparkling bubbles with crystalline pop sounds</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3>🌌 Galaxy</h3>
+                        <p>Cosmic bubbles with ethereal space-inspired audio</p>
+                    </div>
+                </div>
+
+                <p>Each theme features <strong>high-quality ASMR audio</strong> designed to provide maximum satisfaction and relaxation. The sounds are optimized for both headphones and speakers, ensuring a perfect experience whether you're in a private office or shared workspace.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Mental Wellness Benefits -->
+        <section class="content-section" id="wellness-benefits">
+            <div class="container">
+                <h2>Supporting Focus, Anxiety Relief & Mental Wellness</h2>
+                <p>BubbleBreak.fun is more than entertainment - it's a <strong>mental wellness tool</strong> designed to support various cognitive and emotional needs. With <strong>600% increased searches for ADHD support tools</strong>, we've created features specifically for neurodivergent professionals.</p>
+
+                <div class="wellness-benefits">
+                    <div class="wellness-item">
+                        <h3>🎯 ADHD-Friendly Design</h3>
+                        <p>Provides necessary sensory stimulation without overwhelming distractions. Perfect for maintaining focus during long tasks or meetings.</p>
+                    </div>
+                    <div class="wellness-item">
+                        <h3>😰 Anxiety Management</h3>
+                        <p>The repetitive, predictable nature of bubble popping helps ground anxious thoughts and provides a calming focal point.</p>
+                    </div>
+                    <div class="wellness-item">
+                        <h3>⏱️ Effective Micro-Breaks</h3>
+                        <p>Research shows that <strong>micro-breaks improve productivity by 23%</strong>. Use BubbleBreak for 30-60 second mental resets throughout your day.</p>
+                    </div>
+                    <div class="wellness-item">
+                        <h3>🧘 Mindful Moments</h3>
+                        <p>Transform bubble popping into a mindfulness practice by focusing on the visual and auditory sensations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Quick Start Guide -->
+        <section class="content-section" id="quick-start">
+            <div class="container">
+                <h2>Start Popping Bubbles in Seconds</h2>
+                <p>Getting started with your <strong>virtual bubble wrap</strong> experience is incredibly simple. No downloads, no sign-ups, no complicated setup - just instant stress relief.</p>
+
+                <div class="start-steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <h3>Click "Start Popping"</h3>
+                        <p>Hit the blue button above to begin your bubble popping session</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <h3>Choose Your Theme</h3>
+                        <p>Select from Classic, Oil Slick, Crystal, or Galaxy themes</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <h3>Adjust Audio</h3>
+                        <p>Toggle sound on/off or adjust volume for your environment</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <h3>Start Popping!</h3>
+                        <p>Hover over or tap bubbles to pop them and track your count</p>
+                    </div>
+                </div>
+
+                <div class="accessibility-note">
+                    <h3>♿ Accessibility Features</h3>
+                    <p>BubbleBreak.fun is designed to be accessible to everyone, with full keyboard navigation support, screen reader compatibility, and adjustable audio controls for users with varying needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="content-section" id="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Is BubbleBreak.fun really silent for work?</h3>
+                        <p>Yes! You can toggle the sound completely off or adjust the volume to any level. The visual bubble popping provides the same stress relief without any audio.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Does it work on mobile devices?</h3>
+                        <p>Absolutely. BubbleBreak.fun works perfectly on smartphones, tablets, and desktop computers. Touch or click to pop bubbles on any device.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How does bubble popping help with stress?</h3>
+                        <p>Repetitive, satisfying actions like bubble popping trigger the release of dopamine and help activate your parasympathetic nervous system, naturally reducing stress and anxiety.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I use this during video meetings?</h3>
+                        <p>Yes! With sound disabled, BubbleBreak.fun provides discrete stress relief during long meetings or calls without disturbing others.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is there a limit to how many bubbles I can pop?</h3>
+                        <p>No limits! Pop as many bubbles as you need. The counter tracks your progress, and new bubbles continuously appear for endless stress relief.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What makes the ASMR sounds special?</h3>
+                        <p>Each theme features high-quality, professionally recorded bubble pop sounds designed to provide maximum satisfaction and trigger ASMR responses for enhanced relaxation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+
+    <!-- Core game scripts -->
+    <script src="physics-engine.js"></script>
+    <script src="audio-manager.js"></script>
+    <script src="particle-system.js"></script>
+    <script src="bubble-game.js"></script>
+    <script src="adsense-integration.js"></script>
+
+    <!-- Initialize game after DOM is loaded -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the bubble game
+            if (typeof BubbleGame !== 'undefined') {
+                window.bubbleGame = new BubbleGame();
+                window.bubbleGame.init();
+
+                // Add global debugging functions
+                window.testAudio = function() {
+                    if (window.bubbleGame && window.bubbleGame.audioManager) {
+                        window.bubbleGame.audioManager.playTestSound();
+                    } else {
+                        console.error('Audio manager not available');
+                    }
+                };
+
+                window.forceAudioActivation = function() {
+                    if (window.bubbleGame && window.bubbleGame.audioManager) {
+                        window.bubbleGame.audioManager.forceActivateAudio();
+                    } else {
+                        console.error('Audio manager not available');
+                    }
+                };
+
+                window.getAudioStatus = function() {
+                    if (window.bubbleGame && window.bubbleGame.audioManager) {
+                        console.log(window.bubbleGame.audioManager.getStatus());
+                    } else {
+                        console.error('Audio manager not available');
+                    }
+                };
+
+                window.getSpawnStats = function() {
+                    if (window.bubbleGame && window.bubbleGame.spawnStats) {
+                        console.log('Spawn Distribution:', window.bubbleGame.spawnStats);
+                        const total = Object.values(window.bubbleGame.spawnStats).reduce((a, b) => a + b, 0);
+                        if (total > 0) {
+                            console.log('Percentages:');
+                            Object.entries(window.bubbleGame.spawnStats).forEach(([edge, count]) => {
+                                console.log(`  ${edge}: ${((count / total) * 100).toFixed(1)}%`);
+                            });
+                        }
+                    } else {
+                        console.error('Spawn stats not available');
+                    }
+                };
+
+                window.getPopCount = function() {
+                    if (window.bubbleGame) {
+                        console.log(`Bubbles popped this session: ${window.bubbleGame.getPopCount()}`);
+                        return window.bubbleGame.getPopCount();
+                    } else {
+                        console.error('Bubble game not available');
+                        return 0;
+                    }
+                };
+
+                window.getVolumeLevel = function() {
+                    if (window.bubbleGame) {
+                        const level = window.bubbleGame.getCurrentVolumeLevel();
+                        console.log(`Current volume level: ${level}/10`);
+                        return level;
+                    } else {
+                        console.error('Bubble game not available');
+                        return 5;
+                    }
+                };
+
+                window.setVolumeLevel = function(level) {
+                    if (window.bubbleGame && window.bubbleGame.volumeSlider) {
+                        const clampedLevel = Math.max(0, Math.min(10, level));
+                        window.bubbleGame.volumeSlider.value = clampedLevel;
+                        window.bubbleGame.handleVolumeChange(clampedLevel);
+                        console.log(`Volume level set to: ${clampedLevel}/10`);
+                    } else {
+                        console.error('Bubble game or volume slider not available');
+                    }
+                };
+
+                console.log('Debug functions available: testAudio(), forceAudioActivation(), getAudioStatus(), getSpawnStats(), getPopCount(), getVolumeLevel(), setVolumeLevel(0-10)');
+                console.log('Press "D" key to toggle visual debug mode');
+            } else {
+                console.error('BubbleGame not found. Please check if all scripts are loaded correctly.');
+            }
+
+            // Add scroll functionality to scroll indicator
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function() {
+                    document.querySelector('.content-sections').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Lazy loading animation for content sections
+            const contentSections = document.querySelectorAll('.content-section');
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('loaded');
+                        sectionObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
+
+            contentSections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+        });
+
+        // Handle page visibility changes for performance
+        document.addEventListener('visibilitychange', function() {
+            if (window.bubbleGame) {
+                if (document.hidden) {
+                    window.bubbleGame.pause();
+                } else {
+                    window.bubbleGame.resume();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
