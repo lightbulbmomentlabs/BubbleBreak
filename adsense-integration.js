@@ -59,18 +59,6 @@ class AdSenseManager {
                     enabled: false
                 }
             },
-            right: {
-                desktop: {
-                    slot: 'ZZZZZZZZZZ', // Replace with actual right vertical ad slot ID
-                    width: 160,
-                    height: 600,
-                    format: 'vertical-banner'
-                },
-                mobile: {
-                    // Hidden on mobile
-                    enabled: false
-                }
-            }
         };
     }
 
@@ -84,7 +72,6 @@ class AdSenseManager {
             // Get all ad containers
             this.adContainers.bottom = document.getElementById('adContainer');
             this.adContainers.left = document.getElementById('adContainerLeft');
-            this.adContainers.right = document.getElementById('adContainerRight');
 
             if (!this.adContainers.bottom) {
                 throw new Error('Bottom ad container not found');
@@ -99,12 +86,9 @@ class AdSenseManager {
                 }
             });
 
-            // Left and right containers are optional (hidden on mobile)
+            // Left container is optional (hidden on mobile)
             if (!this.adContainers.left) {
                 console.warn('Left ad container not found');
-            }
-            if (!this.adContainers.right) {
-                console.warn('Right ad container not found');
             }
 
             // Wait for game to be loaded before showing ads

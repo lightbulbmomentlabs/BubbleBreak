@@ -30,7 +30,7 @@ class PhysicsEngine {
     /**
      * Update bubble physics
      */
-    updateBubble(bubble, deltaTime) {
+    updateBubble(bubble, deltaTime, speedMultiplier = 1.0) {
         const dt = Math.min(deltaTime / 16.67, 2); // Cap delta for stability (60fps = 16.67ms)
 
         // Update environmental forces
@@ -46,9 +46,9 @@ class PhysicsEngine {
         this.applyBreeze(bubble, dt, graceFactor);
         this.applyAirResistance(bubble, dt);
 
-        // Update position
-        bubble.x += bubble.vx * dt;
-        bubble.y += bubble.vy * dt;
+        // Update position with speed multiplier
+        bubble.x += bubble.vx * dt * speedMultiplier;
+        bubble.y += bubble.vy * dt * speedMultiplier;
 
         // Apply boundary conditions
         this.handleBoundaries(bubble);

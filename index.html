@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D57P0H64JW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D57P0H64JW');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Free ASMR bubble popping app for anxiety and stress relief. Perfect for school, college, zoom meetings, and more. ASMR sounds with multiple themes.">
@@ -37,6 +46,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BubbleBreak">
     <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="styles.css" as="style">
@@ -149,7 +163,7 @@
         <!-- Logo -->
         <div class="logo" aria-label="BubbleBreak.fun">
             <span class="logo-icon" aria-hidden="true">🫧</span>
-            <span class="logo-text">BubbleBreak.fun</span>
+            <span class="logo-text">bubble break</span>
         </div>
 
         <!-- Minimal UI Controls -->
@@ -191,6 +205,7 @@
                 <span class="sr-only">Sound: ON</span>
             </button>
             <div class="volume-control" aria-label="Volume control">
+                <div class="slider-label" aria-hidden="true">🔊</div>
                 <input
                     id="volumeSlider"
                     type="range"
@@ -203,10 +218,36 @@
                     aria-valuemax="10"
                     aria-valuenow="5"
                 >
-                <div class="volume-labels">
-                    <span class="volume-label-min" aria-hidden="true">🔇</span>
-                    <span class="volume-label-max" aria-hidden="true">🔊</span>
-                </div>
+            </div>
+            <div class="speed-control" aria-label="Bubble speed control">
+                <div class="slider-label" aria-hidden="true">🚀</div>
+                <input
+                    id="speedSlider"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value="5"
+                    class="speed-slider"
+                    aria-label="Bubble speed level"
+                    aria-valuemin="0"
+                    aria-valuemax="10"
+                    aria-valuenow="5"
+                >
+            </div>
+            <div class="density-control" aria-label="Bubble density control">
+                <div class="slider-label" aria-hidden="true">🫧</div>
+                <input
+                    id="densitySlider"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value="5"
+                    class="density-slider"
+                    aria-label="Bubble density level"
+                    aria-valuemin="0"
+                    aria-valuemax="10"
+                    aria-valuenow="5"
+                >
             </div>
         </div>
     </div>
@@ -224,20 +265,19 @@
     </div>
 
     <div id="adContainerLeft" class="ad-container ad-container-left" aria-label="Advertisement">
-        <!-- Left vertical AdSense code will be injected here -->
-    </div>
-
-    <div id="adContainerRight" class="ad-container ad-container-right" aria-label="Advertisement">
-        <!-- Right vertical AdSense code will be injected here -->
+        <!-- Static ad content (excluded from AdSense management) -->
+        <a href="https://abundantmines.com/ref/13/" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; height: 100%; text-decoration: none;">
+            <img src="ad-units/abundant-mines.jpg" alt="Abundant Mines - Mining operations and services" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+        </a>
     </div>
 
     <!-- Start Button -->
     <div id="startScreen" class="start-screen" aria-label="Start game">
         <div class="start-content">
-            <h1>🫧 BubbleBreak.fun</h1>
-            <p>A relaxing digital fidget toy</p>
+            <h1>🫧 bubble break</h1>
+            <p>Your relaxing experience to reduce anxiety and stress.</p>
             <button id="startButton" class="start-button" aria-label="Start popping bubbles">
-                Start Popping
+                Start
             </button>
         </div>
     </div>

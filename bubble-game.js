@@ -33,7 +33,6 @@ class BubbleGame {
         // Ad zone configuration for bubble avoidance
         this.adZones = {
             left: { width: 180, margin: 20 }, // Ad width + safety margin
-            right: { width: 180, margin: 20 }, // Ad width + safety margin
             bottom: { height: 100, margin: 20 } // Ad height + safety margin
         };
 
@@ -52,6 +51,8 @@ class BubbleGame {
         this.startButton = null;
         this.popCountElement = null;
         this.volumeSlider = null;
+        this.speedSlider = null;
+        this.densitySlider = null;
 
         // Game state
         this.gameStarted = false;
@@ -59,6 +60,8 @@ class BubbleGame {
         this.currentTheme = 'classic'; // Default theme
         this.currentBackground = 'gradient'; // Default background
         this.isTransitioning = false;
+        this.bubbleSpeedMultiplier = 1.0; // Default speed (5 on the slider)
+        this.bubbleDensityMultiplier = 1.0; // Default density (5 on the slider)
 
         // Theme definitions
         this.themes = {
@@ -187,6 +190,8 @@ class BubbleGame {
             this.startButton = document.getElementById('startButton');
             this.popCountElement = document.getElementById('popCount');
             this.volumeSlider = document.getElementById('volumeSlider');
+            this.speedSlider = document.getElementById('speedSlider');
+            this.densitySlider = document.getElementById('densitySlider');
             this.themeSelect = document.getElementById('themeSelect');
             this.backgroundSelect = document.getElementById('backgroundSelect');
 
@@ -310,6 +315,26 @@ class BubbleGame {
             this.handleVolumeChange(this.volumeSlider.value);
         }
 
+        // Speed slider
+        if (this.speedSlider) {
+            this.speedSlider.addEventListener('input', (e) => {
+                this.handleSpeedChange(e.target.value);
+            });
+
+            // Set initial speed from slider value
+            this.handleSpeedChange(this.speedSlider.value);
+        }
+
+        // Density slider
+        if (this.densitySlider) {
+            this.densitySlider.addEventListener('input', (e) => {
+                this.handleDensityChange(e.target.value);
+            });
+
+            // Set initial density from slider value
+            this.handleDensityChange(this.densitySlider.value);
+        }
+
         // Theme selector
         if (this.themeSelect) {
             this.themeSelect.addEventListener('change', (e) => {
@@ -416,8 +441,8 @@ class BubbleGame {
         // Spawn new bubbles
         this.updateBubbleSpawning(deltaTime);
 
-        // Update bubbles
-        this.bubbleManager.update(deltaTime, this.physicsEngine);
+        // Update bubbles with speed multiplier
+        this.bubbleManager.update(deltaTime, this.physicsEngine, this.bubbleSpeedMultiplier);
 
         // Update particles
         if (this.particleSystem) {
@@ -488,6 +513,11 @@ class BubbleGame {
         let spawnDelay = this.nextSpawnDelay;
         if (currentBubbleCount < targetBubbleCount) {
             spawnDelay = spawnDelay * 0.3; // Much faster spawning when below target
+
+            // At very high density levels (6x+), spawn even faster
+            if (this.bubbleDensityMultiplier >= 3.0) {
+                spawnDelay = spawnDelay * 0.5; // Even faster for high density
+            }
         }
 
         // Debug logging (temporary)
@@ -510,14 +540,13 @@ class BubbleGame {
      */
     getSafeSpawnZones() {
         const leftSafeZone = this.adZones.left.width + this.adZones.left.margin;
-        const rightSafeZone = this.adZones.right.width + this.adZones.right.margin;
         const bottomSafeZone = this.adZones.bottom.height + this.adZones.bottom.margin;
 
         return {
             leftEdge: leftSafeZone,
-            rightEdge: this.width - rightSafeZone,
+            rightEdge: this.width, // No right ad zone, so full width available
             bottomEdge: this.height - bottomSafeZone,
-            safeWidth: this.width - leftSafeZone - rightSafeZone
+            safeWidth: this.width - leftSafeZone // Only avoid left ad zone
         };
     }
 
@@ -528,7 +557,18 @@ class BubbleGame {
         try {
             // Spawn closer to screen edges to ensure bubbles enter view quickly
             const spawnDistance = 30; // Much closer to screen edge
-            const side = Math.floor(Math.random() * 3); // 3 edges: bottom, left, right (no top)
+
+            // Weighted spawn distribution: 80% bottom, 10% left, 10% right
+            const randomValue = Math.random();
+            let side;
+            if (randomValue < 0.8) {
+                side = 0; // bottom edge (80% chance)
+            } else if (randomValue < 0.9) {
+                side = 1; // left edge (10% chance)
+            } else {
+                side = 2; // right edge (10% chance)
+            }
+
             const safeZones = this.getSafeSpawnZones();
             let x, y;
 
@@ -796,6 +836,65 @@ class BubbleGame {
         }
 
         console.log(`Volume set to: ${volumeLevel.toFixed(1)} (${sliderValue}/10)`);
+    }
+
+    /**
+     * Handle speed change
+     */
+    handleSpeedChange(sliderValue) {
+        const speedLevel = parseInt(sliderValue);
+        console.log(`Speed changed to: ${speedLevel}/10`);
+
+        // Convert speed level (0-10) to multiplier
+        // 0 = 0.1x (very slow), 5 = 1.0x (normal), 10 = 2.0x (very fast)
+        if (speedLevel === 0) {
+            this.bubbleSpeedMultiplier = 0.1;
+        } else {
+            this.bubbleSpeedMultiplier = 0.1 + (speedLevel * 0.19); // 0.1 to 2.0 range
+        }
+
+        // Update slider aria-valuenow for accessibility
+        if (this.speedSlider) {
+            this.speedSlider.setAttribute('aria-valuenow', sliderValue);
+        }
+
+        console.log(`Bubble speed multiplier: ${this.bubbleSpeedMultiplier.toFixed(2)}x`);
+    }
+
+    /**
+     * Handle density change
+     */
+    handleDensityChange(sliderValue) {
+        const densityLevel = parseInt(sliderValue);
+        console.log(`Density changed to: ${densityLevel}/10`);
+
+        // Convert density level (0-10) to multiplier
+        // 0 = 0.2x (few bubbles), 5 = 1.0x (normal), 10 = 6.0x (screen full of bubbles!)
+        if (densityLevel === 0) {
+            this.bubbleDensityMultiplier = 0.2;
+        } else if (densityLevel <= 5) {
+            // Linear scaling from 0.2x to 1.0x for levels 1-5
+            this.bubbleDensityMultiplier = 0.2 + (densityLevel * 0.16); // 0.2 to 1.0 range
+        } else {
+            // Exponential scaling for levels 6-10 to create dramatic increase
+            const excessLevel = densityLevel - 5;
+            this.bubbleDensityMultiplier = 1.0 + (excessLevel * 1.0); // 1.0 to 6.0 range
+        }
+
+        // Update the max bubbles configuration based on density
+        const baseBubbles = 25; // Original max bubbles
+        this.config.maxBubbles = Math.round(baseBubbles * this.bubbleDensityMultiplier);
+
+        // Also update initial bubble count to help fill screen faster at high density
+        const baseInitialBubbles = 8; // Original initial bubble count
+        this.config.initialBubbleCount = Math.round(baseInitialBubbles * this.bubbleDensityMultiplier);
+
+        // Update slider aria-valuenow for accessibility
+        if (this.densitySlider) {
+            this.densitySlider.setAttribute('aria-valuenow', sliderValue);
+        }
+
+        console.log(`Bubble density multiplier: ${this.bubbleDensityMultiplier.toFixed(2)}x (${this.config.maxBubbles} max bubbles, ${this.config.initialBubbleCount} initial)`);
     }
 
     /**
@@ -1170,7 +1269,7 @@ class Bubble {
     /**
      * Update bubble state
      */
-    update(deltaTime, physicsEngine) {
+    update(deltaTime, physicsEngine, speedMultiplier = 1.0) {
         if (!this.isAlive) return;
 
         this.age += deltaTime;
@@ -1183,11 +1282,11 @@ class Bubble {
 
         // Update position with physics
         if (physicsEngine) {
-            physicsEngine.updateBubble(this, deltaTime);
+            physicsEngine.updateBubble(this, deltaTime, speedMultiplier);
         } else {
-            // Fallback physics
-            this.x += this.vx;
-            this.y += this.vy;
+            // Fallback physics with speed multiplier
+            this.x += this.vx * speedMultiplier;
+            this.y += this.vy * speedMultiplier;
 
             // Add wobble effect
             this.x += Math.sin(this.age * this.wobbleSpeed + this.wobbleOffset) * 0.2;
@@ -1481,10 +1580,10 @@ class BubbleManager {
     /**
      * Update all bubbles
      */
-    update(deltaTime, physicsEngine) {
+    update(deltaTime, physicsEngine, speedMultiplier = 1.0) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             const bubble = this.bubbles[i];
-            bubble.update(deltaTime, physicsEngine);
+            bubble.update(deltaTime, physicsEngine, speedMultiplier);
 
             // Remove dead bubbles
             if (!bubble.isAlive) {
