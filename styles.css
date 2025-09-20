@@ -80,7 +80,7 @@ html, body {
 
 /* UI Controls */
 .ui-controls {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
     z-index: 10;
@@ -91,7 +91,7 @@ html, body {
 
 /* Logo */
 .logo {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     z-index: 10;
@@ -574,11 +574,65 @@ html, body {
     transition: opacity 0.3s ease;
 }
 
+.ad-container a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.ad-container a:hover {
+    transform: scale(1.02);
+}
+
+.ad-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
 .ad-container:empty {
     display: none;
 }
 
-/* Bottom Ad Container */
+/* Static Ad Container (completely isolated from AdSense) */
+.static-ad-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6; /* Higher than regular ad containers */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+    transition: opacity 0.3s ease;
+}
+
+.static-ad-container a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.static-ad-container a:hover {
+    transform: scale(1.02);
+}
+
+.static-ad-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Bottom Ad Container (hidden when using static ads) */
 .ad-container-bottom {
     bottom: 0;
     left: 50%;
@@ -586,6 +640,7 @@ html, body {
     max-width: 100vw;
     border-radius: 8px 8px 0 0;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Hidden since we're using static-ad-container */
 }
 
 /* Left Vertical Ad Container - Desktop Only */
@@ -728,6 +783,11 @@ html, body {
         height: 50px;
     }
 
+    .static-ad-container {
+        width: 320px;
+        height: 50px;
+    }
+
 
     .loading-bubble {
         width: 50px;
@@ -825,11 +885,21 @@ html, body {
         width: 468px;
         height: 60px;
     }
+
+    .static-ad-container {
+        width: 468px;
+        height: 60px;
+    }
 }
 
 /* Desktop - Bottom ad sizing */
 @media (min-width: 1025px) {
     .ad-container-bottom {
+        width: 728px;
+        height: 90px;
+    }
+
+    .static-ad-container {
         width: 728px;
         height: 90px;
     }
@@ -859,7 +929,7 @@ html, body {
 /* Scroll Indicator */
 .scroll-indicator {
     position: absolute;
-    bottom: 30px;
+    bottom: 100px; /* Increased spacing for better positioning */
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -867,6 +937,13 @@ html, body {
     z-index: 10;
     animation: bounce 2s infinite;
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Blue color for better visibility on gradient background */
+.scroll-indicator.blue-text {
+    color: #4a90e2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-text {
@@ -1226,7 +1303,7 @@ html, body {
     }
 
     .scroll-indicator {
-        bottom: 20px;
+        bottom: 80px; /* Moved up to avoid ad container overlap */
     }
 
     .scroll-text {

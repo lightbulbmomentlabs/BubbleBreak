@@ -21,6 +21,9 @@ class AdSenseManager {
             right: null
         };
 
+        // Track containers with static content that should be excluded from AdSense
+        this.excludedContainers = new Set();
+
         this.refreshInterval = 30000; // 30 seconds minimum as per PRD
         this.refreshTimer = null;
         this.isGameLoaded = false;
@@ -86,6 +89,15 @@ class AdSenseManager {
             if (!this.adContainers.bottom) {
                 throw new Error('Bottom ad container not found');
             }
+
+            // Check for containers with static content and exclude them from AdSense management
+            Object.keys(this.adContainers).forEach(position => {
+                const container = this.adContainers[position];
+                if (container && container.children.length > 0) {
+                    console.log(`Excluding ${position} container from AdSense (has static content)`);
+                    this.excludedContainers.add(position);
+                }
+            });
 
             // Left and right containers are optional (hidden on mobile)
             if (!this.adContainers.left) {
@@ -192,6 +204,12 @@ class AdSenseManager {
      * Setup individual ad unit
      */
     setupAdUnit(position, isMobile) {
+        // Skip excluded containers (those with static content)
+        if (this.excludedContainers.has(position)) {
+            console.log(`Skipping ${position} container (excluded due to static content)`);
+            return;
+        }
+
         const container = this.adContainers[position];
         if (!container) {
             console.warn(`Container for ${position} ad not found`);
@@ -215,7 +233,7 @@ class AdSenseManager {
         // Show container
         container.style.display = 'block';
 
-        // Clear existing ad content
+        // Clear existing ad content (only if no static content exists)
         container.innerHTML = '';
 
         // Create ad element

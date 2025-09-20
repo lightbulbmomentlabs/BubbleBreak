@@ -850,6 +850,23 @@ class BubbleGame {
             currentLayer.className = 'background-layer current gradient';
             currentLayer.style.opacity = '1';
         }
+
+        // Set initial scroll indicator color
+        this.updateScrollIndicatorColor();
+    }
+
+    /**
+     * Update scroll indicator color based on current background
+     */
+    updateScrollIndicatorColor() {
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            if (this.currentBackground === 'gradient') {
+                scrollIndicator.classList.add('blue-text');
+            } else {
+                scrollIndicator.classList.remove('blue-text');
+            }
+        }
     }
 
     /**
@@ -909,6 +926,9 @@ class BubbleGame {
 
                 this.currentBackground = backgroundName;
                 this.isTransitioning = false;
+
+                // Update scroll indicator color for better visibility
+                this.updateScrollIndicatorColor();
             }, 1550); // Slightly longer than the CSS transition
         }
     }
@@ -1531,28 +1551,49 @@ class InputHandler {
         this.mouseY = 0;
         this.isMouseDown = false;
         this.onBubbleHover = null;
+        this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        this.touchActive = false;
 
         this.setupEventListeners();
     }
 
     setupEventListeners() {
-        // Mouse events
-        this.canvas.addEventListener('mousemove', (e) => {
-            this.updateMousePosition(e);
-        }, { passive: true });
+        // Mouse events (only for non-touch devices)
+        if (!this.isTouchDevice) {
+            this.canvas.addEventListener('mousemove', (e) => {
+                this.updateMousePosition(e);
+            }, { passive: true });
+        }
 
-        // Touch events for mobile
-        this.canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (e.touches.length > 0) {
-                this.updateTouchPosition(e.touches[0]);
-            }
-        }, { passive: false });
-
+        // Touch events for mobile - only trigger on actual touch
         this.canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (e.touches.length > 0) {
+                this.touchActive = true;
                 this.updateTouchPosition(e.touches[0]);
+                // Immediately check for bubble interaction on touch
+                if (this.onBubbleHover) {
+                    this.onBubbleHover(this.mouseX, this.mouseY);
+                }
+            }
+        }, { passive: false });
+
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.touchActive = false;
+            // Clear position to prevent persistent hover
+            this.mouseX = -1000;
+            this.mouseY = -1000;
+        }, { passive: false });
+
+        this.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0 && this.touchActive) {
+                this.updateTouchPosition(e.touches[0]);
+                // Check for bubble interaction during touch move
+                if (this.onBubbleHover) {
+                    this.onBubbleHover(this.mouseX, this.mouseY);
+                }
             }
         }, { passive: false });
     }
@@ -1570,8 +1611,8 @@ class InputHandler {
     }
 
     update() {
-        // Trigger hover check for bubble popping
-        if (this.onBubbleHover) {
+        // Trigger hover check for bubble popping (only on desktop, not touch devices)
+        if (this.onBubbleHover && !this.isTouchDevice) {
             this.onBubbleHover(this.mouseX, this.mouseY);
         }
     }

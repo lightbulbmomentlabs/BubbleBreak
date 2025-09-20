@@ -25,3 +25,7 @@ npm-debug.log*
 *.tmp
 temp/
 debug-test.html
+
+# Include ad-units directory
+!ad-units/
+!ad-units/*
