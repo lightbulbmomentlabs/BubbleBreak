@@ -42,6 +42,7 @@ class PhysicsEngine {
 
         // Apply physics forces (reduced during grace period)
         this.applyBuoyancy(bubble, dt, graceFactor);
+        this.applySpawnMomentum(bubble, dt, graceFactor);
         this.applyWobble(bubble, dt, graceFactor);
         this.applyBreeze(bubble, dt, graceFactor);
         this.applyAirResistance(bubble, dt);
@@ -85,6 +86,27 @@ class PhysicsEngine {
         // Larger bubbles have more buoyancy
         const buoyancyForce = this.gravity * (1 + bubble.size / 100) * graceFactor;
         bubble.vy += buoyancyForce * dt;
+    }
+
+    /**
+     * Apply spawn momentum to maintain directional movement
+     */
+    applySpawnMomentum(bubble, dt, graceFactor = 1.0) {
+        if (bubble.spawnMomentumX !== undefined && bubble.spawnMomentumY !== undefined) {
+            // Apply continuous momentum force based on spawn direction
+            // Stronger during grace period, gradually weakens over time
+            const momentumStrength = graceFactor > 0.5 ? 1.0 : 0.3; // Strong when young, weaker when older
+
+            // For side-spawned bubbles, maintain horizontal movement
+            if (bubble.spawnDirection === 'left' || bubble.spawnDirection === 'right') {
+                bubble.vx += bubble.spawnMomentumX * momentumStrength * dt;
+                bubble.vy += bubble.spawnMomentumY * momentumStrength * dt;
+            } else {
+                // Bottom-spawned bubbles get gentle momentum
+                bubble.vx += bubble.spawnMomentumX * momentumStrength * dt * 0.5;
+                bubble.vy += bubble.spawnMomentumY * momentumStrength * dt;
+            }
+        }
     }
 
     /**

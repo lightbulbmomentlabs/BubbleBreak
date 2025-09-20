@@ -46,13 +46,14 @@ class BubbleGame {
 
         // UI elements
         this.loadingScreen = null;
-        this.audioToggle = null;
         this.startScreen = null;
         this.startButton = null;
         this.popCountElement = null;
         this.volumeSlider = null;
         this.speedSlider = null;
         this.densitySlider = null;
+        this.settingsToggle = null;
+        this.collapsibleSettings = null;
 
         // Game state
         this.gameStarted = false;
@@ -185,13 +186,14 @@ class BubbleGame {
             // Get DOM elements
             this.canvas = document.getElementById('bubbleCanvas');
             this.loadingScreen = document.getElementById('loadingScreen');
-            this.audioToggle = document.getElementById('audioToggle');
             this.startScreen = document.getElementById('startScreen');
             this.startButton = document.getElementById('startButton');
             this.popCountElement = document.getElementById('popCount');
             this.volumeSlider = document.getElementById('volumeSlider');
             this.speedSlider = document.getElementById('speedSlider');
             this.densitySlider = document.getElementById('densitySlider');
+            this.settingsToggle = document.getElementById('settingsToggle');
+            this.collapsibleSettings = document.getElementById('collapsibleSettings');
             this.themeSelect = document.getElementById('themeSelect');
             this.backgroundSelect = document.getElementById('backgroundSelect');
 
@@ -291,17 +293,17 @@ class BubbleGame {
         // Page visibility (for performance)
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
-        // Audio toggle
-        if (this.audioToggle) {
-            this.audioToggle.addEventListener('click', () => {
-                this.toggleAudio();
-            });
-        }
-
         // Start button
         if (this.startButton) {
             this.startButton.addEventListener('click', () => {
                 this.startGame();
+            });
+        }
+
+        // Settings toggle
+        if (this.settingsToggle && this.collapsibleSettings) {
+            this.settingsToggle.addEventListener('click', () => {
+                this.toggleSettings();
             });
         }
 
@@ -633,14 +635,23 @@ class BubbleGame {
                         case 0: // bottom edge - move upward into screen
                             vx = (Math.random() - 0.5) * 0.3; // Small horizontal drift
                             vy = -baseSpeed * randomSpeed; // Strong upward movement
+                            bubble.spawnDirection = 'bottom';
+                            bubble.spawnMomentumX = 0;
+                            bubble.spawnMomentumY = -0.4; // Upward momentum
                             break;
                         case 1: // left edge - move rightward into screen
-                            vx = baseSpeed * randomSpeed; // Strong rightward movement
-                            vy = (Math.random() - 0.5) * 0.3; // Small vertical drift
+                            vx = baseSpeed * randomSpeed * 1.5; // Stronger rightward movement
+                            vy = -0.2 - Math.random() * 0.3; // Also float upward
+                            bubble.spawnDirection = 'left';
+                            bubble.spawnMomentumX = 0.6; // Strong rightward momentum
+                            bubble.spawnMomentumY = -0.2; // Gentle upward momentum
                             break;
                         case 2: // right edge - move leftward into screen
-                            vx = -baseSpeed * randomSpeed; // Strong leftward movement
-                            vy = (Math.random() - 0.5) * 0.3; // Small vertical drift
+                            vx = -baseSpeed * randomSpeed * 1.5; // Stronger leftward movement
+                            vy = -0.2 - Math.random() * 0.3; // Also float upward
+                            bubble.spawnDirection = 'right';
+                            bubble.spawnMomentumX = -0.6; // Strong leftward momentum
+                            bubble.spawnMomentumY = -0.2; // Gentle upward momentum
                             break;
                     }
 
@@ -769,35 +780,6 @@ class BubbleGame {
         }
     }
 
-    /**
-     * Toggle audio on/off
-     */
-    toggleAudio() {
-        if (this.audioManager) {
-            // Force audio context activation if needed
-            if (this.audioManager.audioContext &&
-                this.audioManager.audioContext.state === 'suspended') {
-                console.log('Manually activating audio context');
-                this.audioManager.forceActivateAudio();
-            }
-
-            const isEnabled = this.audioManager.toggleMute();
-
-            // Update UI
-            if (this.audioToggle) {
-                this.audioToggle.classList.toggle('muted', !isEnabled);
-                const srText = this.audioToggle.querySelector('.sr-only');
-                if (srText) {
-                    srText.textContent = isEnabled ? 'Sound: ON' : 'Sound: OFF';
-                }
-            }
-
-            // Update volume slider state
-            this.updateVolumeSliderState(!isEnabled);
-
-            console.log('Audio toggled:', isEnabled ? 'ON' : 'OFF');
-        }
-    }
 
     /**
      * Handle volume slider changes
@@ -814,11 +796,9 @@ class BubbleGame {
             // If volume is set to 0, ensure mute state is updated
             if (volumeLevel === 0) {
                 this.audioManager.isMuted = true;
-                this.updateAudioToggleUI(true);
             } else if (this.audioManager.isMuted) {
                 // If volume is raised from 0, unmute
                 this.audioManager.isMuted = false;
-                this.updateAudioToggleUI(false);
             }
 
             // Test the volume change with a sound
@@ -897,18 +877,6 @@ class BubbleGame {
         console.log(`Bubble density multiplier: ${this.bubbleDensityMultiplier.toFixed(2)}x (${this.config.maxBubbles} max bubbles, ${this.config.initialBubbleCount} initial)`);
     }
 
-    /**
-     * Update audio toggle UI state
-     */
-    updateAudioToggleUI(isMuted) {
-        if (this.audioToggle) {
-            this.audioToggle.classList.toggle('muted', isMuted);
-            const srText = this.audioToggle.querySelector('.sr-only');
-            if (srText) {
-                srText.textContent = isMuted ? 'Sound: OFF' : 'Sound: ON';
-            }
-        }
-    }
 
     /**
      * Update volume slider visual state
@@ -917,6 +885,27 @@ class BubbleGame {
         if (this.volumeSlider) {
             this.volumeSlider.style.opacity = isMuted ? '0.5' : '1.0';
             this.volumeSlider.disabled = isMuted;
+        }
+    }
+
+    /**
+     * Toggle settings visibility on mobile
+     */
+    toggleSettings() {
+        if (this.collapsibleSettings && this.settingsToggle) {
+            const isVisible = this.collapsibleSettings.classList.contains('show');
+
+            if (isVisible) {
+                // Hide settings
+                this.collapsibleSettings.classList.remove('show');
+                this.settingsToggle.classList.remove('active');
+                this.settingsToggle.setAttribute('aria-expanded', 'false');
+            } else {
+                // Show settings
+                this.collapsibleSettings.classList.add('show');
+                this.settingsToggle.classList.add('active');
+                this.settingsToggle.setAttribute('aria-expanded', 'true');
+            }
         }
     }
 
@@ -1235,6 +1224,11 @@ class Bubble {
         this.vy = 0;
         this.wobbleOffset = Math.random() * Math.PI * 2;
         this.wobbleSpeed = 0.02 + Math.random() * 0.02;
+
+        // Spawn momentum - preserves initial direction for side-spawned bubbles
+        this.spawnMomentumX = 0;
+        this.spawnMomentumY = 0;
+        this.spawnDirection = 'bottom'; // 'bottom', 'left', 'right'
 
         // Visual properties
         this.opacity = 1;

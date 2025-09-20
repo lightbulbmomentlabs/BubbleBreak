@@ -173,81 +173,84 @@
             <span id="popCount" class="counter-value">0</span>
             <span class="sr-only">Bubbles popped this session</span>
         </div>
-        <div class="theme-selector" aria-label="Bubble theme">
-            <select id="themeSelect" class="theme-select" aria-label="Choose bubble theme">
-                <option value="classic">Classic Soap</option>
-                <option value="oil">Oil Slick</option>
-                <option value="crystal">Crystal</option>
-                <option value="galaxy">Galaxy</option>
-            </select>
-        </div>
-        <div class="background-selector" aria-label="Background theme">
-            <select id="backgroundSelect" class="background-select" aria-label="Choose background">
-                <option value="gradient">Default Gradient</option>
-                <option value="aurora">Aurora</option>
-                <option value="clouds">Clouds</option>
-                <option value="forest">Forest</option>
-                <option value="galaxy">Galaxy</option>
-                <option value="meadow">Meadow</option>
-                <option value="mountain">Mountain</option>
-                <option value="ocean">Ocean</option>
-                <option value="zen">Zen</option>
-            </select>
-        </div>
-        <div class="audio-controls">
-            <button
-                id="audioToggle"
-                class="audio-toggle"
-                aria-label="Toggle sound effects"
-                type="button"
-            >
-                <span class="audio-icon" aria-hidden="true">🔊</span>
-                <span class="sr-only">Sound: ON</span>
-            </button>
-            <div class="volume-control" aria-label="Volume control">
-                <div class="slider-label" aria-hidden="true">🔊</div>
-                <input
-                    id="volumeSlider"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value="5"
-                    class="volume-slider"
-                    aria-label="Volume level"
-                    aria-valuemin="0"
-                    aria-valuemax="10"
-                    aria-valuenow="5"
-                >
+        <button
+            id="settingsToggle"
+            class="settings-toggle"
+            aria-label="Toggle settings"
+            aria-expanded="false"
+            type="button"
+        >
+            <span class="settings-icon" aria-hidden="true">⚙️</span>
+            <span class="sr-only">Settings</span>
+        </button>
+        <div id="collapsibleSettings" class="collapsible-settings">
+            <div class="theme-selector" aria-label="Bubble theme">
+                <select id="themeSelect" class="theme-select" aria-label="Choose bubble theme">
+                    <option value="classic">Classic Soap</option>
+                    <option value="oil">Oil Slick</option>
+                    <option value="crystal">Crystal</option>
+                    <option value="galaxy">Galaxy</option>
+                </select>
             </div>
-            <div class="speed-control" aria-label="Bubble speed control">
-                <div class="slider-label" aria-hidden="true">🚀</div>
-                <input
-                    id="speedSlider"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value="5"
-                    class="speed-slider"
-                    aria-label="Bubble speed level"
-                    aria-valuemin="0"
-                    aria-valuemax="10"
-                    aria-valuenow="5"
-                >
+            <div class="background-selector" aria-label="Background theme">
+                <select id="backgroundSelect" class="background-select" aria-label="Choose background">
+                    <option value="gradient">Default Gradient</option>
+                    <option value="aurora">Aurora</option>
+                    <option value="clouds">Clouds</option>
+                    <option value="forest">Forest</option>
+                    <option value="galaxy">Galaxy</option>
+                    <option value="meadow">Meadow</option>
+                    <option value="mountain">Mountain</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="zen">Zen</option>
+                </select>
             </div>
-            <div class="density-control" aria-label="Bubble density control">
-                <div class="slider-label" aria-hidden="true">🫧</div>
-                <input
-                    id="densitySlider"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value="5"
-                    class="density-slider"
-                    aria-label="Bubble density level"
-                    aria-valuemin="0"
-                    aria-valuemax="10"
-                    aria-valuenow="5"
-                >
+            <div class="audio-controls">
+                <div class="volume-control" aria-label="Volume control">
+                    <div class="slider-label" aria-hidden="true">🔊</div>
+                    <input
+                        id="volumeSlider"
+                        type="range"
+                        min="0"
+                        max="10"
+                        value="5"
+                        class="volume-slider"
+                        aria-label="Volume level"
+                        aria-valuemin="0"
+                        aria-valuemax="10"
+                        aria-valuenow="5"
+                    >
+                </div>
+                <div class="speed-control" aria-label="Bubble speed control">
+                    <div class="slider-label" aria-hidden="true">🚀</div>
+                    <input
+                        id="speedSlider"
+                        type="range"
+                        min="0"
+                        max="10"
+                        value="5"
+                        class="speed-slider"
+                        aria-label="Bubble speed level"
+                        aria-valuemin="0"
+                        aria-valuemax="10"
+                        aria-valuenow="5"
+                    >
+                </div>
+                <div class="density-control" aria-label="Bubble density control">
+                    <div class="slider-label" aria-hidden="true">🫧</div>
+                    <input
+                        id="densitySlider"
+                        type="range"
+                        min="0"
+                        max="10"
+                        value="5"
+                        class="density-slider"
+                        aria-label="Bubble density level"
+                        aria-valuemin="0"
+                        aria-valuemax="10"
+                        aria-valuenow="5"
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -276,6 +279,7 @@
         <div class="start-content">
             <h1>🫧 bubble break</h1>
             <p>Your relaxing experience to reduce anxiety and stress.</p>
+            <p class="mobile-headphones-tip">🎧 For the best experience on mobile, please use headphones</p>
             <button id="startButton" class="start-button" aria-label="Start popping bubbles">
                 Start
             </button>
