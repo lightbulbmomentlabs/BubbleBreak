@@ -46,17 +46,254 @@
     <meta name="apple-mobile-web-app-title" content="BubbleBreak">
     <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Optimized -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Critical CSS (inlined) -->
+    <style>
+/* Critical CSS - Above the fold styles only */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-weight: 400;
+    background: #f0f0f0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    scroll-behavior: smooth;
+}
+
+button, input, select, textarea, option {
+    font-family: inherit;
+}
+
+#gameSection {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+}
+
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.background-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.background-layer.current {
+    opacity: 1;
+    z-index: 1;
+}
+
+.background-layer.next {
+    opacity: 0;
+    z-index: 2;
+}
+
+.background-layer.transitioning {
+    opacity: 1;
+}
+
+.background-layer.gradient {
+    background: linear-gradient(135deg, #87CEEB 0%, #ffffff 100%);
+}
+
+#bubbleCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+    z-index: 1;
+    touch-action: none;
+}
+
+.ui-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+    cursor: default;
+}
+
+.logo:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+}
+
+.logo-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.logo-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a90e2;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.settings-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    position: relative;
+}
+
+.settings-toggle:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+}
+
+.settings-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.settings-toggle.active .settings-icon {
+    transform: rotate(90deg);
+}
+
+.pop-counter {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    padding: 8px 16px;
+    gap: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+}
+
+.pop-counter:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+}
+
+.counter-icon {
+    font-size: 16px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.counter-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6ba3e5;
+    min-width: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.pop-counter:hover .counter-value {
+    color: #4a90e2;
+}
+
+.counter-value.updated {
+    transform: scale(1.2);
+    color: #27ae60;
+}
+
+.audio-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.dark-background .logo-text {
+    color: white !important;
+}
+
+.dark-background .counter-value {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark-background .pop-counter:hover .counter-value {
+    color: white !important;
+}
+
+.dark-background .counter-value.updated {
+    color: #2ecc71 !important;
+}
+    </style>
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="styles.css?v=2024.1" as="style">
     <link rel="preload" href="bubble-game.js?v=2024.1" as="script">
 
-    <link rel="stylesheet" href="styles.css?v=2024.1">
-    <link rel="stylesheet" href="article-styles.css?v=2024.1">
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="styles.css?v=2024.1" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css?v=2024.1"></noscript>
+    <link rel="preload" href="article-styles.css?v=2024.1" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="article-styles.css?v=2024.1"></noscript>
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8970429986961450"
@@ -733,5 +970,10 @@
             </div>
         </div>
     </footer>
+
+    <!-- CSS Fallback Loader -->
+    <script>
+!function(){"use strict";function e(e,t,n){var r,o=window.document,i=o.createElement("link");if(t)r=t;else{var s=(o.body||o.getElementsByTagName("head")[0]).childNodes;r=s[s.length-1]}var a=o.styleSheets;function l(e){if(o.body)return e();setTimeout(function(){l(e)})}i.rel="stylesheet",i.href=e,i.media="only x",l(function(){r.parentNode.insertBefore(i,t?r:r.nextSibling)});var c=function e(t){for(var n=i.href,o=a.length;o--;)if(a[o].href===n)return t();setTimeout(function(){e(t)})};function u(){i.addEventListener&&i.removeEventListener("load",u),i.media=n||"all"}return i.addEventListener&&i.addEventListener("load",u),i.onloadcssdefined=c,c(u),i}setTimeout(function(){var t=["styles.css?v=2024.1","article-styles.css?v=2024.1"];t.forEach(function(t){for(var n=!1,r=document.styleSheets,o=0;o<r.length;o++)if(r[o].href&&-1!==r[o].href.indexOf(t)){n=!0;break}n||e(t)})},100)}();
+    </script>
 </body>
 </html>
