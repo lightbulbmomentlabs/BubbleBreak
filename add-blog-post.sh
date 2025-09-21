@@ -112,7 +112,7 @@ for img in "$@"; do
         echo "🖼️  For image: $img"
         echo "---"
         echo ""
-        echo "FEATURED IMAGE (for article headers):"
+        echo "FEATURED IMAGE (for article headers - LCP optimized):"
         echo '```html'
         echo '<div class="featured-image">'
         echo '    <picture>'
@@ -126,6 +126,9 @@ for img in "$@"; do
         echo "                     ../../post-imgs/optimized/${filename}-1200w.jpg 1200w\""
         echo '             sizes="(max-width: 768px) 400px, 800px"'
         echo '             alt="UPDATE THIS ALT TEXT"'
+        echo '             fetchpriority="high"'
+        echo '             width="800"'
+        echo '             height="400"'
         echo '             loading="eager">'
         echo '    </picture>'
         echo '</div>'
