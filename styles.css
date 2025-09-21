@@ -1408,6 +1408,84 @@ button, input, select, textarea, option {
     line-height: 1.5;
 }
 
+/* Student Scenarios Grid */
+.student-scenarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+}
+
+.scenario {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+    border: 1px solid rgba(135, 206, 235, 0.2);
+}
+
+.scenario:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scenario h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 12px;
+}
+
+.scenario p {
+    font-size: 15px;
+    color: #718096;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Academic Stats */
+.academic-stats {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 40px;
+    border: 1px solid rgba(135, 206, 235, 0.3);
+}
+
+.academic-stats h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.academic-stats ul {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.academic-stats li {
+    padding: 8px 0;
+    font-size: 16px;
+    color: #4a5568;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 24px;
+}
+
+.academic-stats li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #87CEEB;
+    font-weight: bold;
+    font-size: 18px;
+}
+
 /* Wellness Benefits */
 .wellness-benefits {
     display: grid;
@@ -1568,6 +1646,7 @@ button, input, select, textarea, option {
     .benefits-grid,
     .features-list,
     .themes-grid,
+    .student-scenarios,
     .wellness-benefits,
     .start-steps {
         grid-template-columns: 1fr;
