@@ -976,6 +976,14 @@ class BubbleGame {
 
             const background = this.backgrounds[backgroundName];
 
+            // Toggle text color for dark backgrounds
+            const body = document.body;
+            if (backgroundName === 'galaxy' || backgroundName === 'aurora') {
+                body.classList.add('dark-background');
+            } else {
+                body.classList.remove('dark-background');
+            }
+
             // Set up the new background on the next layer
             if (background.type === 'gradient') {
                 nextLayer.className = 'background-layer next gradient';

@@ -188,6 +188,23 @@ button, input, select, textarea, option {
     color: #27ae60;
 }
 
+/* Dark background text adjustments (for galaxy and aurora backgrounds) */
+.dark-background .logo-text {
+    color: white !important;
+}
+
+.dark-background .counter-value {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark-background .pop-counter:hover .counter-value {
+    color: white !important;
+}
+
+.dark-background .counter-value.updated {
+    color: #2ecc71 !important;
+}
+
 /* Settings Toggle Button */
 .settings-toggle {
     width: 48px;
@@ -225,24 +242,26 @@ button, input, select, textarea, option {
 
 /* Collapsible Settings Container */
 .collapsible-settings {
-    display: flex;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    z-index: 15;
+    display: none;
     flex-direction: column;
     gap: 8px;
     align-items: flex-end;
     transition: all 0.3s ease;
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 1000px;
-    overflow: hidden;
-}
-
-.collapsible-settings.hidden {
     opacity: 0;
     transform: translateY(-10px);
-    max-height: 0;
-    margin: 0;
-    padding: 0;
+    padding: 16px;
 }
+
+.collapsible-settings.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 /* Theme Selector */
 .theme-selector {
@@ -1073,8 +1092,9 @@ button, input, select, textarea, option {
         margin-bottom: 25px;
     }
 
-    /* Show mobile headphones tip on mobile devices */
-    .mobile-headphones-tip {
+    /* Show mobile tips on mobile devices */
+    .mobile-headphones-tip,
+    .mobile-silent-tip {
         display: block !important;
         font-size: 0.9rem !important;
         margin-bottom: 20px !important;
@@ -1832,4 +1852,17 @@ body {
     .privacy-notice {
         display: none;
     }
+}
+/* Mobile silent mode tip - hidden by default, shown only on mobile */
+.mobile-silent-tip {
+    display: none !important;
+    font-size: 0.95rem !important;
+    color: #e74c3c !important;
+    margin-bottom: 20px !important;
+    font-weight: 500 !important;
+    text-align: center;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border-left: 3px solid #e74c3c;
 }
