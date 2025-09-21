@@ -4,6 +4,8 @@
 
 echo "🔄 Updating footer template across all pages..."
 
+# Footer CSS is now included in main styles.css file for consistent loading
+
 # Define the main footer template (for index and articles index)
 MAIN_FOOTER_TEMPLATE='    <footer class="footer">
         <div class="footer-container">
