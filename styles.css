@@ -205,6 +205,11 @@ button, input, select, textarea, option {
     color: #2ecc71 !important;
 }
 
+.dark-background .theme-select,
+.dark-background .background-select {
+    color: white !important;
+}
+
 /* Settings Toggle Button */
 .settings-toggle {
     width: 48px;
