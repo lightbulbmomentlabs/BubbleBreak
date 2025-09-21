@@ -1,15 +1,21 @@
 # Enable URL Rewriting
 RewriteEngine On
 
-# Remove .html extension from URLs and redirect to clean URLs
-RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
-RewriteRule ^ /%1 [R=301,L]
+# Force redirect from .html to clean URL (external redirect)
+RewriteCond %{THE_REQUEST} /([^?\s]*?)\.html(\?[^\s]*)?\s [NC]
+RewriteRule ^ /%1%2? [R=301,L]
 
-# Add .html extension internally for clean URLs
+# Internal rewrite: add .html extension for clean URLs
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+)$ $1.html [L]
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# Ensure articles directory works properly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/articles/$1.html -f
+RewriteRule ^articles/([^/]+)/?$ /articles/$1.html [L]
 
 # Security Headers
 <IfModule mod_headers.c>
