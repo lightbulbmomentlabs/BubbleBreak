@@ -249,7 +249,7 @@ button, input, select, textarea, option {
 .collapsible-settings {
     position: absolute;
     top: 80px;
-    right: 20px;
+    right: 10px;
     z-index: 15;
     display: none;
     flex-direction: column;
