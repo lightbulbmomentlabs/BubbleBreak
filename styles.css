@@ -212,8 +212,8 @@ button, input, select, textarea, option {
 
 /* Settings Toggle Button */
 .settings-toggle {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.6);
@@ -1130,8 +1130,8 @@ button, input, select, textarea, option {
     }
 
     .settings-toggle {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
     }
 
     .settings-icon {
