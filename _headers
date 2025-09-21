@@ -1,0 +1,53 @@
+# Cache headers for DigitalOcean App Platform
+
+# Cache CSS files for 1 year
+/styles.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/article-styles.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 1 year
+/post-imgs/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/imgs/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache JavaScript files for 1 year
+/bubble-game.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache fonts for 1 year
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache HTML files for 1 hour (shorter cache for content that might change)
+/*.html
+  Cache-Control: public, max-age=3600
+
+/
+  Cache-Control: public, max-age=3600
+
+# Cache favicon files for 1 week
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+/apple-touch-icon.png
+  Cache-Control: public, max-age=604800
+
+# Cache manifest and service worker files for 1 day
+/manifest.json
+  Cache-Control: public, max-age=86400
+
+/sw.js
+  Cache-Control: public, max-age=86400
