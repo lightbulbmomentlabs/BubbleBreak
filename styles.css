@@ -1123,6 +1123,10 @@ button, input, select, textarea, option {
     /* Mobile settings behavior - hide settings by default */
     .collapsible-settings {
         display: none;
+        right: 12px;
+        top: 60px;
+        align-items: flex-end;
+        padding: 12px;
     }
 
     .collapsible-settings.show {
